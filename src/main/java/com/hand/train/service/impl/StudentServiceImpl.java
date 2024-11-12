@@ -4,6 +4,9 @@ import com.hand.train.mapper.StudentMapper;
 import com.hand.train.po.Student;
 import com.hand.train.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -22,11 +25,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Cacheable(value = "Student", key = "#id")
     public Student getById(int id) {
         return studentMapper.getById(id);
     }
 
     @Override
+    @CachePut(value = "Student", key = "#{newStudent.stuId}")
     public Student addStudent(Student newStudent) {
         if(studentMapper.addStudent(newStudent)>0){
             System.out.println("Success");
@@ -49,6 +54,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @CacheEvict(value = "student", key = "#{id}")
     public Student deleteStudent(int id) {
         Student student = getById(id);
         studentMapper.deleteStudent(id);

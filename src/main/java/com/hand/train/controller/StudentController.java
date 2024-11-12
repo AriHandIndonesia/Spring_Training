@@ -5,6 +5,7 @@ import com.hand.train.service.StudentService;
 import io.swagger.annotations.ApiOperation;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
